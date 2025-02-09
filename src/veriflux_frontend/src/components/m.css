@@ -1,0 +1,114 @@
+/* MassdropMultisender.css */
+
+.massdrop-container {
+    min-height: 100vh;
+    background-color: #1e3a8a; /* Blue-900 */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+  }
+  
+  .massdrop-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .nav-links a {
+    margin-right: 1.5rem;
+    text-decoration: none;
+    color: white;
+    transition: color 0.3s;
+  }
+  
+  .nav-links a:hover {
+    color: #7dd3fc; /* Light blue */
+  }
+  
+  .launch-btn {
+    background-color: #2563eb; /* Blue-500 */
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .launch-btn:hover {
+    background-color: #3b82f6; /* Lighter blue */
+  }
+  
+  .main-content {
+    text-align: center;
+    padding: 2rem;
+  }
+  
+  .illustration-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  .illustration-bg {
+    background: linear-gradient(to right, #1e40af, #1d4ed8);
+    border-radius: 50%;
+    padding: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .illustration-icon {
+    background-color: white;
+    width: 4rem;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+  
+  .illustration-icon span {
+    color: #1e3a8a;
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  
+  .main-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  .main-description {
+    font-size: 1rem;
+    max-width: 40rem;
+    margin: 0 auto 2rem;
+  }
+  
+  .features-section {
+    text-align: left;
+    margin-bottom: 2rem;
+  }
+  
+  .features-section p {
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+  }
+  
+  .star-icon {
+    color: #facc15; /* Yellow */
+    margin-right: 0.5rem;
+  }
+  
