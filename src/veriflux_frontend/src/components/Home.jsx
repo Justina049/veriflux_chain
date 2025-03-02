@@ -1,261 +1,16 @@
-// // import React from 'react'
-
-// // // const Home = () => {
-// // //   return (
-// // //     <div>Home</div>
-// // //   )
-// // // }
-
-// // // export default Home
-
-// // import React from "react";
-// // import './home.css';
-
-
-// // const Home = () => {
-// //   return (
-// //     <div className="container">
-// //       {/* Header */}
-// //       <header className="header">
-// //         <div className="logo">VeriFlux</div>
-// //         <nav className="nav">
-// //           <a href="#products">Products</a>
-// //           <a href="#statistics">Statistics</a>
-// //           <a href="#faq">FAQ</a>
-// //           <button className="launch-btn">Launch dApp</button>
-// //         </nav>
-// //       </header>
-
-// //       {/* Main Section */}
-// //       <main className="main">
-// //         <h1 className="title">Decentralized Certificate Verification</h1>
-// //         <p className="description">
-// //           VeriFlux provides a secure and efficient way to verify certificates. Simplify your verification process with transparency and authenticity.
-// //         </p>
-// //         <button className="main-btn">Launch VeriFlux</button>
-// //       </main>
-
-// //       {/* Features */}
-// //       <section className="features">
-// //         <ul>
-// //           <li>✅ Sender pays all transaction fees</li>
-// //           <li>✅ Recipients immediately verify certificates</li>
-// //         </ul>
-// //       </section>
-// //     </div>
-// //   );
-// // };
-
-// // export default Home;
-
-
-// ////////////////////////////////////////////////////////////////
-
-
-
-
-// // import React from "react";
-// // import './styles.css';
-
-// // const Home = ({ principal, role }) => {
-// //   return (
-// //     <div className="container">
-// //       <h1>Welcome to VeriFlux</h1>
-// //       <p>Logged in as: {principal}</p>
-// //       <p>Role: {role || "Not registered yet"}</p>
-// //     </div>
-// //   );
-// // };
-
-// // export default Home;
-
-
-
-
-
-// // export default function HomePage() {
-// //     return (
-// //       <div style={{ textAlign: "center", marginTop: "50px" }}>
-// //         <h1>Welcome to VeriFlux Home Page</h1>
-// //         <p>You are successfully authenticated!</p>
-// //       </div>
-// //     );
-// //   }
-
-
-
-
-
-
-
-
-
-
-// import React from "react";
-// import "./home.css"; // Import the CSS file
-
-// const Home = () => {
-//   return (
-//     <div>
-//       {/* Navbar */}
-//       <nav className="navbar">
-//         <div className="logo">VeriFlux Chain</div>
-//         <ul className="nav-links">
-//           <li><a href="/home">Home</a></li>
-//           <li><a href="/features">Features</a></li>
-//           <li><a href="/about-us">About Us</a></li>
-//           <li><a href="/benefits">Benefits</a></li>
-//           <li><a href="/login">Login/Register</a></li>
-//           <li><a href="/contact-us">Contact Us</a></li>
-//         </ul>
-//       </nav>
-
-//       {/* Hero Section */}
-//       <header className="hero">
-//         <h1>Secure & Verify Certificates Easily</h1>
-//         <p>Blockchain-powered certificate verification for transparency and trust.</p>
-//         <button className="btn">Get Started</button>
-//       </header>
-
-//       {/* Features Section */}
-//       <section className="features">
-//         <h2>Key Features</h2>
-//         <p>VeriFlux Chain allows you to mint and verify certificates securely.</p>
-//       </section>
-
-//       {/* About Us Section */}
-//       <section className="about">
-//         <h2>About Us</h2>
-//         <p>We are building a decentralized platform to combat credential fraud.</p>
-//       </section>
-
-//       {/* Benefits Section */}
-//       <section className="benefits">
-//         <h2>Why Choose VeriFlux Chain?</h2>
-//         <p>Security, transparency, and trust—all in one platform.</p>
-//       </section>
-
-//       {/* Footer Section */}
-//       <footer className="footer">
-//         <p>&copy; {new Date().getFullYear()} VeriFlux Chain. All rights reserved.</p>
-//       </footer>
-//     </div>
-//   );
-// };
-
-// export default Home;
-
-  
-
-
-////////////////////////////////////
-
-// import React, { useEffect } from "react";
-// import "./home.css";
-// import img31 from "../assets/img31.png";
-// import { Link, useNavigate } from "react-router-dom";
-
-// const Home = () => {
-//   const navigate = useNavigate();
-
-//   useEffect(() => {
-//     const handleSmoothScroll = (event) => {
-//       event.preventDefault();
-//       const targetId = event.currentTarget.getAttribute("href").substring(1);
-//       const targetElement = document.getElementById(targetId);
-
-//       if (targetElement) {
-//         window.scrollTo({
-//           top: targetElement.offsetTop - 80, // Adjusted for fixed navbar
-//           behavior: "smooth",
-//         });
-//       }
-//     };
-
-//     const navLinks = document.querySelectorAll(".nav-links a");
-//     navLinks.forEach((link) => link.addEventListener("click", handleSmoothScroll));
-
-//     return () => {
-//       navLinks.forEach((link) => link.removeEventListener("click", handleSmoothScroll));
-//     };
-//   }, []);
-
-//   return (
-//     <div>
-//       {/* Navbar */}
-//       <nav className="navbar">
-//         <div className="logo-container">
-//           <img src={img31} alt="VeriFlux Logo" className="logo-img" />
-//           <span className="logo-text">VeriFlux Chain</span>
-//         </div>
-//         <ul className="nav-links">
-//           <li><a href="#home">Home</a></li>
-//           <li><a href="#features">Features</a></li>
-//           <li><a href="#about">About Us</a></li>
-//           <li><a href="#benefits">Benefits</a></li>
-//           <li><Link to="/contact">Contact Us</Link></li>
-//           <li><button className="login-btn" onClick={() => navigate("/login")}>Login/Register</button></li>
-//         </ul>
-//       </nav>
-
-//       {/* Hero Section */}
-//       <header id="home" className="hero">
-//         <h1>Secure & Verify Certificates Easily</h1>
-//         <p>Blockchain-powered certificate verification for transparency and trust.</p>
-//         <button className="btn">Get Started</button>
-//       </header>
-
-//       {/* Features Section */}
-//       <section id="features" className="features">
-//         <h2>Key Features</h2>
-//         <p>VeriFlux Chain allows you to mint and verify certificates securely.</p>
-//       </section>
-
-//       {/* About Us Section */}
-//       <section id="about" className="about">
-//         <h2>About Us</h2>
-//         <p>We are building a decentralized platform to combat credential fraud.</p>
-//       </section>
-
-//       {/* Benefits Section */}
-//       <section id="benefits" className="benefits">
-//         <h2>Why Choose VeriFlux Chain?</h2>
-//         <p>Security, transparency, and trust—all in one platform.</p>
-//       </section>
-
-//       {/* Footer Section */}
-//       <footer id="contact" className="footer">
-//         <p>&copy; {new Date().getFullYear()} VeriFlux Chain. All rights reserved.</p>
-//       </footer>
-//     </div>
-//   );
-// };
-
-// export default Home;
-
-
-
-
 import React, { useEffect } from "react";
 import "./home.css";
-import logo from "../assets/img31.png";
+import img2 from "../assets/bl1.jpg";
 import navLogo from "../assets/veriflux.png";
 import { FaCertificate, FaCheckCircle, FaShieldAlt, FaGlobe, FaLock, FaDatabase, FaExpand, FaExclamationTriangle, FaClock } from "react-icons/fa";
 import { GrCertificate } from "react-icons/gr";
 import { MdOutlineSecurity } from "react-icons/md";
-
 import { Link, useNavigate } from "react-router-dom";
 import TeamSection from "./TeamSection";
+import { FaTwitter, FaLinkedin, FaEnvelope } from "react-icons/fa";
 
 
-// const teamMembers = [
-//   { id: 1, name: "Team Member 1", role: "CEO", imgSrc: "path/to/t1.webp" },
-//   { id: 2, name: "Team Member 2", role: "CTO", imgSrc: "path/to/t2.webp" },
-//   { id: 3, name: "Team Member 3", role: "COO", imgSrc: "path/to/t3.webp" },
-//   { id: 4, name: "Team Member 4", role: "CFO", imgSrc: "path/to/t6.webp" },
-//   { id: 5, name: "Team Member 5", role: "CMO", imgSrc: "path/to/t7.png" },
-// ];
-
+ 
 
 const Home = () => {
   const navigate = useNavigate();
@@ -307,30 +62,71 @@ const Home = () => {
         </div>
       </nav>
 
+
+      {/* <section id="home" className="hero"> */}
+        {/* <div className="hero-content"> */}
+          {/* <h1 className="hero-title"> */}
+            {/* Authenticate & Verify Certificates <span>Seamlessly</span> */}
+          {/* </h1> */}
+          
+        {/* </div> */}
+      {/* </section> */}
+
+
+    <section id="home">
+    <div className="hero-container" >
+    {/* Left Side Content */}
+    <div className="hero-text">
+      <h1 className="hero-title">
+        Authenticate & Verify Certificates <span>Seamlessly</span>
+      </h1>
+      <p className="hero-description">
+        A decentralized solution ensuring trust, security, and transparency in certificate verification.
+      </p>
+      <div className="hero-actions">
+        <button className="hero-button primary">Get Started</button>
+        <button className="hero-button secondary">Learn More</button>
+      </div>
+      <div className="hero-metrics">
+        <div className="metric-item">
+          <FaCheckCircle className="metric-icon" size={20} color="green"/>
+          <span>100% Tamper-Proof</span>
+        </div>
+        <div className="metric-item">
+          <FaGlobe className="metric-icon" size={20} color="green" />
+          <span>Global Verification</span>
+        </div>
+        <div className="metric-item">
+          <FaLock className="metric-icon" size={20} color="green" />
+          <span>Secure & Private</span>
+        </div>
+      </div>
+    </div>
+
+    {/* Right Side Image */}
+    <div className="hero-image">
+      <img src={img2} alt="Secure Certificate Verification" />
+    </div>
+  </div>
+{/* </section> */}
+
+
       
-      {/* Hero Section */}
-<header id="home" className="hero">
-  <div className="hero-content">
-    <h1 className="hero-title">Secure & Verify Certificates Easily</h1>
-    <p className="hero-description">
-      Blockchain-powered certificate verification for transparency and trust.
-    </p>
-    <ul className="hero-features">
-      <li>⭐ Built on a secure decentralized platform</li>
-      <li>⭐ Easy certificate minting and verification</li>
-      <li>⭐ Fraud prevention and transparency</li>
-    </ul>
-    <button className="hero-button">Get Started</button>
-  </div>
-  <div className="hero-image">
-    <img src={logo} alt="Hero Graphic" />
-  </div>
-</header>
+
+
+    
+
+    </section>
+  
+
+      
 
 
 
+      
+      
 {/* Key Features Section */}
-<section id="key-features" className="key-features-section">
+<section id="features" className="key-features-section">
   <h2 className="key-features-title">Key Features of VeriFlux Chain</h2>
   <p className="key-features-description">
     VeriFlux Chain allows you to mint and verify certificates securely with a seamless and efficient process.
@@ -410,7 +206,7 @@ const Home = () => {
 
 
       {/* Why Choose VeriFlux Chain */}
-<section id="why-veriflux" className="why-veriflux-section">
+<section id="benefits" className="why-veriflux-section">
   <h2 className="why-veriflux-title">Why Choose VeriFlux Chain?</h2>
   <p className="why-veriflux-description">
     VeriFlux Chain revolutionizes certificate verification with a secure, 
@@ -464,9 +260,66 @@ const Home = () => {
 
 
       {/* Footer Section */}
-      <footer className="footer">
+      {/* <footer className="footer">
         <p>&copy; {new Date().getFullYear()} VeriFlux Chain. All rights reserved.</p>
-      </footer>
+      </footer> */}
+
+     
+
+<footer className="footer">
+      <div className="footer-container">
+        {/* Logo & About */}
+        <div className="footer-section brand-section">
+          <img src={img2} alt="VeriFlux Chain Logo" className="footer-logo" />
+          <span className="brand-text">VeriFlux Chain</span>
+        </div>
+
+        {/* Navigation Links */}
+        <div className="footer-section">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="/features">Features</a></li>
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/login">Login/Register</a></li>
+          </ul>
+        </div>
+
+        {/* Subscribe Section */}
+        <div className="footer-section">
+          <h3>Subscribe</h3>
+          <p>Stay updated with the latest news and updates.</p>
+          <div className="subscribe-box">
+            <input type="email" placeholder="Enter your email" className="email-input" />
+            <button className="subscribe-button">Subscribe</button>
+          </div>
+        </div>
+
+        {/* Social Media */}
+        <div className="footer-section">
+          <h3>Connect With Us</h3>
+          <div className="footer-icons">
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+              <FaTwitter className="icon" />
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+              <FaLinkedin className="icon" />
+            </a>
+            <a href="mailto:info@verifluxchain.com">
+              <FaEnvelope className="icon" />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* Copyright */}
+      <div className="footer-bottom">
+        <p>© {new Date().getFullYear()} VeriFlux Chain. All Rights Reserved.</p>
+      </div>
+    </footer>
+  
+
+
     </div>
   );
 };

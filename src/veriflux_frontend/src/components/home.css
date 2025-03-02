@@ -16,17 +16,17 @@ body {
 
 /* Navbar Styles */
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 30px;
-  background-color: #222;
-  color: white;
-  position: fixed;
-  width: 100%;
+  position: fixed; /* Keeps navbar at the top while scrolling */
   top: 0;
   left: 0;
-  z-index: 1000;
+  width: 100%;
+  background-color: #fff; /* Adjust color as needed */
+  z-index: 10; /* Ensures the navbar is above other elements */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;;
 }
 
 /* 1️⃣ Logo Section */
@@ -36,14 +36,16 @@ body {
 }
 
 .logo-img {
-  width: 40px;
+  width: 60px;
   height: 40px;
   margin-right: 10px;
+  font-weight: bolder;
 }
 
 .logo-text {
   font-size: 20px;
   font-weight: bold;
+  color: #13d34c;
 }
 
 /* 2️⃣ Navigation Links */
@@ -55,13 +57,14 @@ body {
 
 .nav-links li a {
   text-decoration: none;
-  color: white;
-  font-size: 16px;
+  color: rgb(68, 147, 28);
+  /* color: white; */
+  font-size: 18px;
   transition: color 0.3s;
 }
 
 .nav-links li a:hover {
-  color: #00bcd4;
+  color: #e1c141;
 }
 
 /* 3️⃣ Contact Us & Login Buttons */
@@ -75,7 +78,8 @@ body {
   text-decoration: none;
   background: none;
   border: none;
-  color: white;
+  color: rgb(68, 147, 28);
+  /* color: white; */
   font-size: 16px;
   cursor: pointer;
   font-weight: bold;
@@ -83,137 +87,111 @@ body {
 }
 
 .contact-btn:hover {
-  color: #00bcd4;
+  color: #e1c141;
 }
 
 .login-btn {
-  background-color: #00bcd4;
+  background-color: rgb(68, 147, 28);
   border: none;
   padding: 10px 15px;
   color: white;
   font-size: 14px;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 10px;
   font-weight: bold;
   transition: background 0.3s;
 }
 
 .login-btn:hover {
-  background-color: #0097a7;
+  background-color: #e1c141;
 }
 
 
-/* Hero Section */
-/* .hero {
-  text-align: center;
-  background-color: #007bff;
-  color: white;
-  padding: 100px 20px;
-  margin-top: 60px;
-}
-
-.hero h1 {
-  font-size: 36px;
-  margin-bottom: 10px;
-}
-
-.hero p {
-  font-size: 18px;
-}
-
-.btn {
-  display: inline-block;
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: white;
-  color: #007bff;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.btn:hover {
-  background-color: #f1f1f1;
-} */
 
 
-/* Hero Section Styles */
-.hero {
-  width: 100%;
-  height: 100vh;
-  background: linear-gradient(to right, #0056b3, #004080);
-  color: white;
+
+.hero-container {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 0 50px;
-  box-sizing: border-box;
+  align-items: center;
+  flex-wrap: wrap;
+  /* max-width: 1200px; */
+  margin: 0 auto;
+  padding: 100px;
+  background-color: #e5ece3;
+  color: #333;
 }
 
-/* Content Section */
-.hero-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+
+.hero-text {
   max-width: 50%;
 }
 
 .hero-title {
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: bold;
-  margin-bottom: 20px;
+}
+
+.hero-title span {
+  color: #007bff;
 }
 
 .hero-description {
-  font-size: 1.25rem;
-  margin-bottom: 30px;
+  margin: 20px 0;
+  font-size: 1.2rem;
 }
 
-.hero-features {
-  list-style-type: none;
-  padding: 0;
-  margin-bottom: 30px;
-}
-
-.hero-features li {
-  font-size: 1rem;
-  margin-bottom: 10px;
+.hero-actions {
   display: flex;
-  align-items: center;
+  gap: 15px;
+  margin: 20px 0;
 }
 
 .hero-button {
-  background-color: #00aaff;
-  color: white;
-  padding: 15px 30px;
+  padding: 10px 20px;
   font-size: 1rem;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
-.hero-button:hover {
-  background-color: #007acc;
+.hero-button.primary {
+  background-color: rgb(68, 147, 28);
+  color: #fff;
 }
 
-/* Image Section */
-.hero-image {
-  flex: 1;
+.hero-button :hover {
+  background-color: #e1c141;
+}
+
+.hero-button.secondary {
+  background-color: #fff;
+  color: #554e33;;
+  border: 2px solid rgb(68, 147, 28);
+}
+
+.hero-metrics {
   display: flex;
-  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.metric-item {
+  display: flex;
   align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+}
+
+.hero-image {
+  max-width: 45%;
+  text-align: center;
 }
 
 .hero-image img {
   max-width: 100%;
   height: auto;
-  border-radius: 10px;
 }
-
-
 
 /* Sections */
 .features, .about, .benefits {
@@ -276,7 +254,7 @@ body {
 /* About Us Section with Background Image */
 .about-section {
   padding: 60px 20px;
-  background-color: #fff;
+  background-color: #0c0202;
   background-image: url("../assets/veriflux.png"); /* Add your image path */
   background-size: cover;
   background-position: center;
@@ -359,7 +337,7 @@ body {
 .why-veriflux-section {
   text-align: center;
   padding: 60px 20px;
-  background-color: #f9f9f9;
+  background-color: #d7fedd;
 }
 
 .why-veriflux-title {
@@ -513,4 +491,82 @@ body {
   background-color: #222;
   color: white;
   padding: 20px;
+}
+
+
+.footer {
+  background-color: #111;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-section {
+  flex: 1;
+  min-width: 250px;
+  margin: 10px;
+}
+
+.footer-logo {
+  width: 150px;
+  margin-bottom: 10px;
+}
+
+.footer-section h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #00ff99; /* Green color for headings */
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin: 8px 0;
+}
+
+.footer-section ul li a {
+  color: #bbb;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-section ul li a:hover {
+  color: #00ff99; /* Green hover effect */
+}
+
+.footer-icons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.icon {
+  font-size: 20px;
+  color: #bbb;
+  transition: color 0.3s;
+}
+
+.icon:hover {
+  color: #00ff99; /* Green hover effect */
+}
+
+.footer-bottom {
+  margin-top: 20px;
+  border-top: 1px solid #222;
+  padding-top: 10px;
+  font-size: 14px;
+  color: #777;
 }
