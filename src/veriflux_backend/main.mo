@@ -235,6 +235,7 @@ import Debug "mo:base/Debug";
 import Blob "mo:base/Blob";
 import Sha256 "mo:sha2/Sha256";
 import Nat8 "mo:base/Nat8";
+import Error "mo:base/Error";
 
 
 // Define the actor
@@ -293,13 +294,25 @@ actor CertificateManager {
 
     // Add an authorized issuer (Admin Only)
     public shared (msg) func addAuthorizedIssuer(issuer: Principal): async Text {
+        // Input Validation
+        if (Principal.isAnonymous(issuer)) {
+            throw Error.reject("Error: Invalid issuer principal");
+        };
+
+        // check if the caller is the admin
         if (msg.caller != adminPrincipal) {
             return "Error: Only admin can add authorized issuers";
         };
+
+        // check if the issuer already exist
         if (Array.find(authorizedIssuers, func(p: Principal): Bool { p == issuer }) != null) {
             return "Error: Issuer already exists";
         };
+
+        // Add the new issuer
         authorizedIssuers := Array.append(authorizedIssuers, [issuer]);
+
+        //  Log the action
         Debug.print("New authorized issuer added: " # Principal.toText(issuer));
         return "New authorized issuer added successfully";
     };
