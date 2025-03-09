@@ -329,6 +329,11 @@ actor CertificateManager {
 
     // Old Function (kept for backward compatibility)
     public func createCertificate(issuer: Text, recipient: Text, course: Text): async CertificateOld {
+    // Input Validation 
+    if (Text.size(issuer) == 0 or Text.size(recipient) == 0 or Text.size(course) == 0) {
+        throw Error.reject("Error: All fields must be non-empty");
+    };
+
     let issuedAt = Time.now();
     
     let hashInput = issuer # recipient # course # Int.toText(issuedAt);
@@ -358,11 +363,19 @@ actor CertificateManager {
     updateCertifiedData();
     
     return certOld;  // Returning old type to prevent breaking frontend
-};
+    };
 
 
     // New Function (Future usage)
     public func issueCertificate(issuer: Text, recipient: Text, program: Text, issuedAt: Int): async Certificate {
+        // Input Validation
+        if (Text.size(issuer) == 0 or Text.size(recipient) == 0 or Text.size(program) == 0) {
+            throw Error.reject("Error: All text fields must be non-empty");
+        };
+        if (issuedAt <=0) {
+            throw Error.reject("Error: Invalid issueAt timestamp");
+        };
+
         let hashInput = issuer # recipient # program # Int.toText(issuedAt);
         let hashBlob = Text.encodeUtf8(hashInput);
         let hash = Sha256.fromBlob(#sha256, hashBlob);
@@ -382,7 +395,7 @@ actor CertificateManager {
         return cert;
     };
 
-    // Convert Blob to Hex String
+    // Helper function to convert Blob to Hex String
     private func blobToHex(blob: Blob): Text {
         let hex = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"];
         var result = "";
@@ -405,6 +418,9 @@ actor CertificateManager {
         certificate: ?Certificate;
         certified: Bool;
     } {
+        if (Text.size(hash) == 0) {
+            throw Error.reject("Error: Hash cannot be empty");
+        };
         {
             certificate = certificates.get(hash);
             certified = CertifiedData.getCertificate() != null;
