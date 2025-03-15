@@ -75,6 +75,7 @@
 
 
 
+
 // import Array "mo:base/Array";
 // import Time "mo:base/Time";
 // import Text "mo:base/Text";
@@ -236,6 +237,8 @@ import Blob "mo:base/Blob";
 import Sha256 "mo:sha2/Sha256";
 import Nat8 "mo:base/Nat8";
 import Error "mo:base/Error";
+import CertTree "mo:ic-certification/CertTree";
+
 
 
 // Define the actor
@@ -247,7 +250,11 @@ actor CertificateManager {
     
     private var certificatesEntries: [(Text, CertificateOld)] = [];
     private var certificates = HashMap.HashMap<Text, Certificate>(10, Text.equal, Text.hash);
-
+    
+    // Add certified data store
+    stable let cert_store : CertTree.Store = CertTree.newStore();
+    let ct = CertTree.Ops(cert_store);
+    
     // Old Certificate Type (used before upgrade)
     type CertificateOld = {
         issuer: Text;
@@ -360,10 +367,20 @@ actor CertificateManager {
     };
 
     certificates.put(hashHex, certNew);
-    updateCertifiedData();
+
+    // Add to certified tree for seecure verification
+    let path : [Blob] = [Text.encodeUtf8("certificates"), Text.encodeUtf8(hashHex)];
+    let certBlob = to_candid(certNew);
+    ct.put(path, certBlob);
+    ct.setCertifiedData();
+
+
+    // updateCertifiedData(); {removed from the code}
     
     return certOld;  // Returning old type to prevent breaking frontend
     };
+
+
 
 
     // New Function (Future usage)
@@ -391,7 +408,13 @@ actor CertificateManager {
         };
 
         certificates.put(hashHex, cert);
-        updateCertifiedData();
+
+        // Add to certified tree for secure verification
+        let path : [Blob] = [Text.encodeUtf8("certificates"), Text.encodeUtf8(hashHex)];
+        let certBlob = to_candid(cert);
+        ct.put(path, certBlob);
+        ct.setCertifiedData();
+
         return cert;
     };
 
@@ -401,30 +424,63 @@ actor CertificateManager {
         var result = "";
         for (byte in Blob.toArray(blob).vals()) {
             result #= hex[Nat8.toNat(byte) / 16] # hex[Nat8.toNat(byte) % 16];
-        };
+        }; 
         result
     };
 
-    // Update Certified Data for Secure Verification
-    private func updateCertifiedData() {
-        let certifiedData = to_candid(Iter.toArray(certificates.vals()));
-        let digest = Sha256.Digest(#sha256);
-        digest.writeBlob(certifiedData);
-        CertifiedData.set(digest.sum());
-    };
+    // // Update Certified Data for Secure Verification
+    // private func updateCertifiedData() {
+    //     let certifiedData = to_candid(Iter.toArray(certificates.vals()));
+    //     let digest = Sha256.Digest(#sha256);
+    //     digest.writeBlob(certifiedData);
+    //     CertifiedData.set(digest.sum());
+        
+    // }; removed from the code :With the CertTree implementation, certification happens directly in your certificate creation functions (createCertificate and issueCertificate) through these lines:
+
 
     // Verify a certificate by hash
     public query func verifyCertificate(hash: Text): async {
         certificate: ?Certificate;
         certified: Bool;
+        certificate_blob: Blob;
+        witness : Blob;
+        // {
+        //     certificate_blob = ct.get([Text.encodeUtf8("certificates"), Text.encodeUtf8(hash)]);
+        //     certified = CertifiedData.getCertificate() != null;
+        // };
     } {
         if (Text.size(hash) == 0) {
             throw Error.reject("Error: Hash cannot be empty");
         };
-        {
-            certificate = certificates.get(hash);
-            certified = CertifiedData.getCertificate() != null;
-        }
+
+        let certificate = certificates.get(hash);
+
+        let certificate_blob = switch (certificate) {
+            case (null) { Blob.fromArray([]) };
+            case (?cert) { to_candid(cert) };
+        };
+
+        let path : [Blob] = [Text.encodeUtf8("certificates"), Text.encodeUtf8(hash)];
+
+        let witness = ct.encodeWitness(ct.reveal(path));
+
+        let system_certificate = switch (CertifiedData.getCertificate()) {
+            case (?cert) { cert };
+            case (null) { Debug.trap("Certified data not set") };
+        };
+
+        return {
+            certificate = certificate;
+            certified = true;
+            certificate_blob = certificate_blob;
+            witness = witness;
+            system_certificate = system_certificate;
+        };
+        
+        // {
+        //     certificate = certificates.get(hash);
+        //     certified = CertifiedData.getCertificate() != null;
+        // }
     };
 
     // List all certificates
