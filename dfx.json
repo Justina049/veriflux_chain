@@ -8,8 +8,12 @@
       "dependencies": [
         "veriflux_backend"
       ],
+      "frontend": {
+        "entrypoint": "src/veriflux_frontend/src/index.html"
+      },
       "source": [
-        "src/veriflux_frontend/dist"
+        "src/veriflux_frontend/assets",
+        "dist/veriflux_frontend/"
       ],
       "type": "assets",
       "workspace": "veriflux_frontend"
