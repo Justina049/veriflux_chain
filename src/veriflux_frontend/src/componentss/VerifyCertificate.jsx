@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { certificate_backend } from '../../../declarations/certificate_backend';
+import { veriflux_backend } from '../../../declarations/veriflux_backend';
 
 function VerifyCertificate() {
   const [hash, setHash] = useState('');
@@ -14,7 +14,7 @@ function VerifyCertificate() {
     setResult(null);
 
     try {
-      const verificationResult = await certificate_backend.verifyCertificate(hash);
+      const verificationResult = await  veriflux_backend.verifyCertificate(hash);
       setResult(verificationResult);
     } catch (err) {
       setError(err.message || 'An error occurred while verifying the certificate');

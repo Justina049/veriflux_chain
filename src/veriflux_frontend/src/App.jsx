@@ -101,6 +101,7 @@
 // import React, { useState } from "react";
 // import { AuthClient } from "@dfinity/auth-client";
 // import { veriflux_backend } from "declarations/veriflux_backend";
+
 // import Login from "./components/Login";
 // import Register from "./components/Register";
 // import Home from "./components/Home";
@@ -195,22 +196,123 @@
 
 
 
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import LandingPage from "./components/LandingPage";
-import HomePage from "./components/Home";
-import Login from "./pages/Login";
-import ContactUs from "./pages/ContactUs";
 
 
-export default function App() {
+
+
+
+// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// import LandingPage from "./components/LandingPage";
+// import HomePage from "./components/Home";
+// import Login from "./pages/Login";
+// import ContactUs from "./pages/ContactUs";
+
+
+// export default function App() {
+//   return (
+//     <Router>
+//       <Routes>
+//         <Route element={<LandingPage />} />
+//         <Route path="/home" element={<HomePage />} />
+//         <Route path="/login" element={<Login />} />
+//         <Route path="/contact" element={<ContactUs />} />
+//       </Routes>
+//     </Router>
+//   );
+// }
+
+
+
+
+
+
+
+import React, { useState, useEffect } from 'react';
+import { veriflux_backend } from '../../declarations/veriflux_backend';
+// import { certificate_backend } from '../../declarations/veriflux_backend';
+import IssueCertificate from './componentss/IssueCertificate';
+import VerifyCertificate from './componentss/VerifyCertificate';
+import CertificateList from './componentss/CertificateList'
+
+function App() {
+  const [activeTab, setActiveTab] = useState('issue');
+  const [certificates, setCertificates] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchCertificates = async () => {
+    try {
+      setLoading(true);
+      const result = await certificate_backend.listCertificates();
+      setCertificates(result);
+    } catch (error) {
+      console.error('Error fetching certificates:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCertificates();
+  }, []);
+
   return (
-    <Router>
-      <Routes>
-        <Route element={<LandingPage />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/contact" element={<ContactUs />} />
-      </Routes>
-    </Router>
+    <div className="min-h-screen bg-gray-50">
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold text-center text-blue-600 mb-8">
+          Certificate Management System
+        </h1>
+        
+        {/* Tabs */}
+        <div className="flex border-b border-gray-200 mb-6">
+          <button
+            className={`py-2 px-4 font-medium ${
+              activeTab === 'issue'
+                ? 'text-blue-600 border-b-2 border-blue-600'
+                : 'text-gray-500 hover:text-blue-500'
+            }`}
+            onClick={() => setActiveTab('issue')}
+          >
+            Issue Certificate
+          </button>
+          <button
+            className={`py-2 px-4 font-medium ${
+              activeTab === 'verify'
+                ? 'text-blue-600 border-b-2 border-blue-600'
+                : 'text-gray-500 hover:text-blue-500'
+            }`}
+            onClick={() => setActiveTab('verify')}
+          >
+            Verify Certificate
+          </button>
+          <button
+            className={`py-2 px-4 font-medium ${
+              activeTab === 'list'
+                ? 'text-blue-600 border-b-2 border-blue-600'
+                : 'text-gray-500 hover:text-blue-500'
+            }`}
+            onClick={() => setActiveTab('list')}
+          >
+            List Certificates
+          </button>
+        </div>
+        
+        {/* Tab Content */}
+        <div className="bg-white rounded-lg shadow-md p-6">
+          {activeTab === 'issue' && (
+            <IssueCertificate onCertificateIssued={fetchCertificates} />
+          )}
+          {activeTab === 'verify' && <VerifyCertificate />}
+          {activeTab === 'list' && (
+            <CertificateList 
+              certificates={certificates} 
+              loading={loading} 
+              onRefresh={fetchCertificates} 
+            />
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
+
+export default App;

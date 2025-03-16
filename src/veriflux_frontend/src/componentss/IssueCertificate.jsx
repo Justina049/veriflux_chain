@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { certificate_backend } from '../../../declarations/certificate_backend';
+import { veriflux_backend } from '../../../declarations/veriflux_backend';
 
 function IssueCertificate({ onCertificateIssued }) {
   const [formData, setFormData] = useState({
@@ -26,7 +26,7 @@ function IssueCertificate({ onCertificateIssued }) {
 
     try {
       const { issuer, recipient, program } = formData;
-      const certificate = await certificate_backend.createCertificate(
+      const certificate = await veriflux_backend.createCertificate(
         issuer,
         recipient,
         program
