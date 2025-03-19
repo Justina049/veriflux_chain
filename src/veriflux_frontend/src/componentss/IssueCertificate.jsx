@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { veriflux_backend } from '../../../declarations/veriflux_backend';
+import './IssueCertificate.scss';
 
 function IssueCertificate({ onCertificateIssued }) {
   const [formData, setFormData] = useState({
@@ -48,14 +49,12 @@ function IssueCertificate({ onCertificateIssued }) {
   };
 
   return (
-    <div>
-      <h2 className="text-2xl font-semibold mb-6">Issue New Certificate</h2>
+    <div className="issue-certificate">
+      <h2>Issue New Certificate</h2>
       
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="issuer" className="block text-sm font-medium text-gray-700 mb-1">
-            Issuer
-          </label>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="issuer">Issuer</label>
           <input
             type="text"
             id="issuer"
@@ -63,15 +62,12 @@ function IssueCertificate({ onCertificateIssued }) {
             value={formData.issuer}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Enter issuer name"
           />
         </div>
         
-        <div>
-          <label htmlFor="recipient" className="block text-sm font-medium text-gray-700 mb-1">
-            Recipient
-          </label>
+        <div className="form-group">
+          <label htmlFor="recipient">Recipient</label>
           <input
             type="text"
             id="recipient"
@@ -79,15 +75,12 @@ function IssueCertificate({ onCertificateIssued }) {
             value={formData.recipient}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Enter recipient name"
           />
         </div>
         
-        <div>
-          <label htmlFor="program" className="block text-sm font-medium text-gray-700 mb-1">
-            Program
-          </label>
+        <div className="form-group">
+          <label htmlFor="program">Program</label>
           <input
             type="text"
             id="program"
@@ -95,29 +88,24 @@ function IssueCertificate({ onCertificateIssued }) {
             value={formData.program}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Enter program name"
           />
         </div>
         
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
-        >
+        <button type="submit" disabled={loading}>
           {loading ? 'Processing...' : 'Issue Certificate'}
         </button>
       </form>
       
       {error && (
-        <div className="mt-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-md">
+        <div className="alert error">
           {error}
         </div>
       )}
       
       {result && (
-        <div className="mt-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-md">
-          <h3 className="font-semibold mb-2">Certificate Issued Successfully!</h3>
+        <div className="alert success">
+          <h3>Certificate Issued Successfully!</h3>
           <p><strong>Hash:</strong> {result.hash}</p>
           <p><strong>Issuer:</strong> {result.issuer}</p>
           <p><strong>Recipient:</strong> {result.recipient}</p>
