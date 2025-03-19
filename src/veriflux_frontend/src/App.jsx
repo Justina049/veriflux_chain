@@ -233,6 +233,7 @@ import { veriflux_backend } from '../../declarations/veriflux_backend';
 import IssueCertificate from './componentss/IssueCertificate';
 import VerifyCertificate from './componentss/VerifyCertificate';
 import CertificateList from './componentss/CertificateList'
+import './index.scss';
 
 function App() {
   const [activeTab, setActiveTab] = useState('issue');
@@ -242,7 +243,8 @@ function App() {
   const fetchCertificates = async () => {
     try {
       setLoading(true);
-      const result = await certificate_backend.listCertificates();
+      // const result = await veriflux_backend.listCertificates();
+      const result = []; // Placeholder until backend is connected
       setCertificates(result);
     } catch (error) {
       console.error('Error fetching certificates:', error);
@@ -256,57 +258,43 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-center text-blue-600 mb-8">
-          Certificate Management System
-        </h1>
-        
+    <div className="app-container">
+      <div className="content-wrapper">
+        <h1 className="page-title">Certificate Management System</h1>
+
         {/* Tabs */}
-        <div className="flex border-b border-gray-200 mb-6">
+        <div className="tabs">
           <button
-            className={`py-2 px-4 font-medium ${
-              activeTab === 'issue'
-                ? 'text-blue-600 border-b-2 border-blue-600'
-                : 'text-gray-500 hover:text-blue-500'
-            }`}
+            className={`tab-button ${activeTab === 'issue' ? 'active' : ''}`}
             onClick={() => setActiveTab('issue')}
           >
             Issue Certificate
           </button>
           <button
-            className={`py-2 px-4 font-medium ${
-              activeTab === 'verify'
-                ? 'text-blue-600 border-b-2 border-blue-600'
-                : 'text-gray-500 hover:text-blue-500'
-            }`}
+            className={`tab-button ${activeTab === 'verify' ? 'active' : ''}`}
             onClick={() => setActiveTab('verify')}
           >
             Verify Certificate
           </button>
           <button
-            className={`py-2 px-4 font-medium ${
-              activeTab === 'list'
-                ? 'text-blue-600 border-b-2 border-blue-600'
-                : 'text-gray-500 hover:text-blue-500'
-            }`}
+            className={`tab-button ${activeTab === 'list' ? 'active' : ''}`}
             onClick={() => setActiveTab('list')}
           >
             List Certificates
           </button>
         </div>
-        
+
         {/* Tab Content */}
-        <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="tab-content">
           {activeTab === 'issue' && (
             <IssueCertificate onCertificateIssued={fetchCertificates} />
           )}
           {activeTab === 'verify' && <VerifyCertificate />}
           {activeTab === 'list' && (
-            <CertificateList 
-              certificates={certificates} 
-              loading={loading} 
-              onRefresh={fetchCertificates} 
+            <CertificateList
+              certificates={certificates}
+              loading={loading}
+              onRefresh={fetchCertificates}
             />
           )}
         </div>
