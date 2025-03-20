@@ -464,18 +464,28 @@ actor CertificateManager {
 
         let witness = ct.encodeWitness(ct.reveal(path));
 
-        let system_certificate = switch (CertifiedData.getCertificate()) {
-            case (?cert) { cert };
-            case (null) { Debug.trap("Certified data not set") };
-        };
+        // let system_certificate = switch (CertifiedData.getCertificate()) {
+        //     case (?cert) { cert };
+        //     case (null) { Debug.trap("Certified data not set") };
+        // };
 
-        return {
-            certificate = certificate;
-            certified = true;
-            certificate_blob = certificate_blob;
-            witness = witness;
-            system_certificate = system_certificate;
-        };
+        // Check if we have a certificate from the system
+    let certified = CertifiedData.getCertificate() != null;
+
+    return {
+        certificate = certificate;
+        certified = certified;
+        certificate_blob = certificate_blob;
+        witness = witness;
+    };
+
+        // return {
+        //     certificate = certificate;
+        //     certified = true;
+        //     certificate_blob = certificate_blob;
+        //     witness = witness;
+        //     system_certificate = system_certificate;
+        // };
         
         // {
         //     certificate = certificates.get(hash);

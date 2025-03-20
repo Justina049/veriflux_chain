@@ -229,7 +229,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { veriflux_backend } from '../../declarations/veriflux_backend';
-// import { certificate_backend } from '../../declarations/veriflux_backend';
 import IssueCertificate from './componentss/IssueCertificate';
 import VerifyCertificate from './componentss/VerifyCertificate';
 import CertificateList from './componentss/CertificateList'
@@ -243,8 +242,7 @@ function App() {
   const fetchCertificates = async () => {
     try {
       setLoading(true);
-      // const result = await veriflux_backend.listCertificates();
-      const result = []; // Placeholder until backend is connected
+      const result = await veriflux_backend.listCertificates();
       setCertificates(result);
     } catch (error) {
       console.error('Error fetching certificates:', error);
