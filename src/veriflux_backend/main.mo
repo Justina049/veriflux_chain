@@ -1,229 +1,3 @@
-// import Time "mo:base/Time";
-// import HashMap "mo:base/HashMap";
-// import Principal "mo:base/Principal";
-// import Blob "mo:base/Blob";
-// import SHA256 "mo:base/SHA256";
-// import Text "mo:base/Text";
-
-// actor Veriflux {
-//     // Define a certificate type
-//     type Certificate = {
-//         id: Text;
-//         issuer: Principal;
-//         recipient: Text;
-//         issuedAt: Time.Time;
-//         details: Text;
-//         hash: Text;
-//     };
-
-//     // Store certificates
-//     let certificates = HashMap.HashMap<Text, Certificate>(10, Text.equal, Text.hash);
-//     let userRoles = HashMap.HashMap<Principal, Text>(10, Principal.equal, Principal.hash);
-
-//     // Function to hash certificate data
-//     func generateHash(data: Text) : Text {
-//         let bytes = Blob.toArray(Text.encodeUtf8(data));
-//         let hashBytes = SHA256.fromArray(bytes);
-//         return Text.encodeUtf8(Blob.toText(hashBytes));
-//     };
-
-//     // Mint a certificate
-//     public shared (caller) func mintCertificate(id: Text, recipient: Text, details: Text) : async Text {
-//         let role = userRoles.get(caller);
-//         if (role != ?"issuer") return "Access Denied: Only issuers can mint certificates";
-
-//         let certificateData = id # recipient # details;
-//         let certificateHash = generateHash(certificateData);
-
-//         let certificate: Certificate = {
-//             id = id;
-//             issuer = caller;
-//             recipient = recipient;
-//             issuedAt = Time.now();
-//             details = details;
-//             hash = certificateHash;
-//         };
-
-//         certificates.put(id, certificate);
-//         return "Certificate minted successfully with hash: " # certificateHash;
-//     };
-
-//     // Verify a certificate
-//     public query func verifyCertificate(id: Text) : async ?Certificate {
-//         return certificates.get(id);
-//     };
-
-//     // Register user as issuer or verifier
-//     public shared (caller) func registerUser(role: Text) : async Text {
-//         if (role != "issuer" and role != "verifier") return "Invalid role";
-//         userRoles.put(caller, role);
-//         return "User registered as " # role;
-//     };
-
-//     // Check user role
-//     public query func getUserRole(user: Principal) : async ?Text {
-//         return userRoles.get(user);
-//     };
-// };
-
-
-
-
-
-
-
-
-
-
-
-// import Array "mo:base/Array";
-// import Time "mo:base/Time";
-// import Text "mo:base/Text";
-// import Int "mo:base/Int";
-
-// actor CertificateManager {
-//     type Certificate = {
-//         id: Text;
-//         issuer: Text;
-//         recipient: Text;
-//         course: Text;
-//         issueDate: Int;
-//     };
-
-    // // Use a stable array to store certificates
-    // stable var certificates: [Certificate] = [];
-
-    // // Create a new certificate
-    // public func createCertificate(issuer: Text, recipient: Text, course: Text): async Certificate {
-    //     // let id = Text.concat(issuer, recipient, course, Int.toText(Time.now()));
-    //     let id = Text.concat(issuer, Text.concat(recipient, Text.concat(course, Int.toText(Time.now()))));
-    //     let newCertificate: Certificate = {
-    //         id;
-    //         issuer;
-    //         recipient;
-    //         course;
-    //         issueDate = Time.now();
-    //     };
-    //     certificates := Array.append(certificates, [newCertificate]);
-    //     newCertificate
-    // };
-
-    // // Get all certificates
-    // public query func getAllCertificates(): async [Certificate] {
-    //     certificates
-    // };
-
-    // // Get a certificate by ID
-    // public query func getCertificate(id: Text): async ?Certificate {
-    //     Array.find<Certificate>(certificates, func(cert: Certificate): Bool { cert.id == id })
-    // };
-
-//     // Verify a certificate (simplified to just check if it exists)
-//     public query func verifyCertificate(id: Text): async Bool {
-//         switch (Array.find<Certificate>(certificates, func(cert: Certificate): Bool { cert.id == id })) {
-//             case (null) { false };
-//             case (?cert) { true };
-//         }
-//     };
-// }
-
-
-
-
-
-// from elsuraj
-// import Array "mo:base/Array";
-// import Time "mo:base/Time";
-// import Text "mo:base/Text";
-// import Int "mo:base/Int";
-// import Principal "mo:base/Principal";
-// import CertifiedData "mo:base/CertifiedData";
-// import HashMap "mo:base/HashMap";
-// import Iter "mo:base/Iter";
-// import Debug "mo:base/Debug";
-// import Blob "mo:base/Blob";
-// import Sha256 "mo:sha2/Sha256";
-
-
-// // Define the actor
-
-// actor CertificateManager {
-//     private stable var authorizedIssuers : [Principal] = [Principal.fromText("4sxcy-uffsq-raca2-u5fdh-6u5tg-yz6bl-jgtns-eoctr-u6wen-svor7-xae")];
-//     private stable var adminPrincipal : Principal = Principal.fromText("4sxcy-uffsq-raca2-u5fdh-6u5tg-yz6bl-jgtns-eoctr-u6wen-svor7-xae");
-//     private var certificatesEntries : [(Text, Certificate)] = [];
-//     private var certificates = HashMap.HashMap<Text, Certificate>(10, Text.equal, Text.hash);
-
-//     type Certificate = {
-//         issuer : Text;
-//         recipient : Text;
-//         program : Text;
-//         issuedAt : Int;
-//         hash : Text;
-//         status : Text;
-//     };
-
-//     system func preupgrade() {
-//         certificatesEntries := Iter.toArray(certificates.entries());
-//     };
-
-//     system func postupgrade() {
-//         certificates := HashMap.fromIter<Text, Certificate>(certificatesEntries.vals(), 10, Text.equal, Text.hash);
-//         certificatesEntries := [];
-//     };
-
-//     public shared (msg) func addAuthorizedIssuer(issuer : Principal) : async Text {
-//         if (msg.caller != adminPrincipal) {
-//             return "Error: Only admin can add authorized issuers";
-//         };
-//         if (Array.find(authorizedIssuers, func(p : Principal) : Bool { p == issuer }) != null) {
-//             return "Error: Issuer already exists";
-//         };
-//         authorizedIssuers := Array.append(authorizedIssuers, [issuer]);
-//         Debug.print("New authorized issuer added: " # Principal.toText(issuer));
-//         return "New authorized issuer added successfully";
-//     };
-
-//     public shared (msg) func addAdmin(newAdmin : Principal) : async Text {
-//         if (msg.caller != adminPrincipal and Array.find(authorizedIssuers, func(p : Principal) : Bool { p == msg.caller }) == null) {
-//             return "Error: Only admin or authorized issuers can add new admins";
-//         };
-//         authorizedIssuers := Array.append(authorizedIssuers, [newAdmin]);
-//         Debug.print("New admin added: " # Principal.toText(newAdmin));
-//         return "New admin added successfully";
-//     };
-
-//     public func createCertificate(issuer: Text, recipient: Text, course: Text): async Certificate {
-//     let issuedAt = Time.now();
-    
-//     let hashInput = issuer # recipient # course # Int.toText(issuedAt);
-//     let hashBlob = Text.encodeUtf8(hashInput);
-//     let hash = Sha256.fromBlob(#sha256, hashBlob);
-//     let hashHex = blobToHex(hash);
-
-//     let cert : Certificate = {
-//         issuer = issuer;
-//         recipient = recipient;
-//         program = course;
-//         issuedAt = issuedAt;
-//         hash = hashHex;
-//         status = "Valid";
-//     };
-
-//     certificates.put(hashHex, cert);
-//     updateCertifiedData();
-    
-//     cert
-// };
-
-//     public query func listCertificates() : async [Certificate] {
-//         return Iter.toArray(certificates.vals()); 
-
-//     };
-// }
-
-
-
-
 import Array "mo:base/Array";
 import Time "mo:base/Time";
 import Text "mo:base/Text";
@@ -273,6 +47,7 @@ actor CertificateManager {
         hash: Text;
         status: Text;
     };
+    
 
     // Preserve old certificates before upgrade
     system func preupgrade() {
@@ -282,7 +57,7 @@ actor CertificateManager {
     // Migrate old certificates to the new format after upgrade
     system func postupgrade() {
         let migratedCerts = HashMap.HashMap<Text, Certificate>(10, Text.equal, Text.hash);
-        
+    
         for ((key, oldCert) in certificatesEntries.vals()) {
             let newCert: Certificate = {
                 issuer = oldCert.issuer;
@@ -297,6 +72,16 @@ actor CertificateManager {
         
         certificates := migratedCerts;
         certificatesEntries := [];
+        
+        // Also add to certification tree
+        for ((key, cert) in migratedCerts.entries()) {
+            let path : [Blob] = [Text.encodeUtf8("certificates"), Text.encodeUtf8(key)];
+            let certBlob = to_candid(cert);
+            ct.put(path, certBlob);
+        };
+
+        // Update certified data after migration
+        ct.setCertifiedData();
     };
 
     // Add an authorized issuer (Admin Only)
@@ -374,9 +159,6 @@ actor CertificateManager {
     ct.put(path, certBlob);
     ct.setCertifiedData();
 
-
-    // updateCertifiedData(); {removed from the code}
-    
     return certOld;  // Returning old type to prevent breaking frontend
     };
 
@@ -428,69 +210,59 @@ actor CertificateManager {
         result
     };
 
-    // // Update Certified Data for Secure Verification
-    // private func updateCertifiedData() {
-    //     let certifiedData = to_candid(Iter.toArray(certificates.vals()));
-    //     let digest = Sha256.Digest(#sha256);
-    //     digest.writeBlob(certifiedData);
-    //     CertifiedData.set(digest.sum());
-        
-    // }; removed from the code :With the CertTree implementation, certification happens directly in your certificate creation functions (createCertificate and issueCertificate) through these lines:
-
-
+   
     // Verify a certificate by hash
     public query func verifyCertificate(hash: Text): async {
         certificate: ?Certificate;
         certified: Bool;
         certificate_blob: Blob;
         witness : Blob;
-        // {
-        //     certificate_blob = ct.get([Text.encodeUtf8("certificates"), Text.encodeUtf8(hash)]);
-        //     certified = CertifiedData.getCertificate() != null;
-        // };
+        valid: Bool;
+        status: Text;
+        
     } {
         if (Text.size(hash) == 0) {
             throw Error.reject("Error: Hash cannot be empty");
         };
 
         let certificate = certificates.get(hash);
-
-        let certificate_blob = switch (certificate) {
-            case (null) { Blob.fromArray([]) };
-            case (?cert) { to_candid(cert) };
-        };
-
         let path : [Blob] = [Text.encodeUtf8("certificates"), Text.encodeUtf8(hash)];
+        
+
+        let certificate_blob = switch (ct.lookup(path)) {
+            case (null) { 
+                // If not in tree, try to serialize from HashMap
+                switch (certificate) {
+                    case (null) { Blob.fromArray([]) };
+                    case (?cert) { to_candid(cert) };
+                }
+            };
+            case (?blob) { blob };
+        };
 
         let witness = ct.encodeWitness(ct.reveal(path));
 
-        // let system_certificate = switch (CertifiedData.getCertificate()) {
-        //     case (?cert) { cert };
-        //     case (null) { Debug.trap("Certified data not set") };
-        // };
+        let certified = CertifiedData.getCertificate() != null;
 
-        // Check if we have a certificate from the system
-    let certified = CertifiedData.getCertificate() != null;
+        let valid = switch (certificate) {
+            case (null) { false };
+            case (?cert) { 
+                certified and cert.status == "Valid" 
+            };
+        };
 
     return {
-        certificate = certificate;
+        certificate = certificate; // now of type ?Certificate as expected
         certified = certified;
         certificate_blob = certificate_blob;
         witness = witness;
+        valid = valid;
+        status = switch (certificate) {
+            case (null) { "Invalid" };
+            case (?cert) { cert.status };
+        };
     };
-
-        // return {
-        //     certificate = certificate;
-        //     certified = true;
-        //     certificate_blob = certificate_blob;
-        //     witness = witness;
-        //     system_certificate = system_certificate;
-        // };
-        
-        // {
-        //     certificate = certificates.get(hash);
-        //     certified = CertifiedData.getCertificate() != null;
-        // }
+ 
     };
 
     // List all certificates
