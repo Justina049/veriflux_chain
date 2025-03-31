@@ -84,6 +84,33 @@ actor CertificateManager {
         ct.setCertifiedData();
     };
 
+    public query func getAdminStats(): async {
+        totalCertificates: Nat;
+        totalIssuers: Nat;
+        certificatesByStatus: [(Text, Nat)];
+    } {
+        let totalCertificates = certificates.size();
+        let totalIssuers = Array.size(authorizedIssuers);
+        
+        let statusCount = HashMap.HashMap<Text, Nat>(3, Text.equal, Text.hash);
+        
+        for ((_, cert) in certificates.entries()) {
+            let count = switch (statusCount.get(cert.status)) {
+                case (?existing) { existing + 1 };
+                case (null) { 1 };
+            };
+            statusCount.put(cert.status, count);
+        };
+        
+        let certificatesByStatus = Iter.toArray(statusCount.entries());
+        
+        return {
+            totalCertificates = totalCertificates;
+            totalIssuers = totalIssuers;
+            certificatesByStatus = certificatesByStatus;
+        };
+    };
+    
     // Add an authorized issuer (Admin Only)
     public shared (msg) func addAuthorizedIssuer(issuer: Principal): async Text {
         // Input Validation
